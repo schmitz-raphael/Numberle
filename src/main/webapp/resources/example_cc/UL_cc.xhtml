@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="jakarta.faces.composite"
+      xmlns:h="jakarta.faces.html" xml:lang="en">
+
+   <composite:interface>
+      <composite:attribute name="attribute1"/>
+      <composite:attribute name="attribute2"/>
+      <composite:attribute name="actionBtnText"/>
+      <composite:attribute name="actionMethod"
+                           method-signature="java.lang.String test()"/>
+   </composite:interface>
+
+   <composite:implementation>
+      <hr/>
+      <h:outputLabel style="color: red" value="This is the start of the composite component" />
+      <h:form>
+         <h:inputText value="#{cc.attrs.attribute1}"/>
+         <br/>
+         <h:inputText value="#{cc.attrs.attribute2}"/>
+         <br/>
+         <h:commandButton action="#{cc.attrs.actionMethod}"
+                          value="#{cc.attrs.actionBtnText}"/>
+      </h:form>
+      <h:outputLabel style="color: red" value="This is the end of the composite component" />
+      <hr/>
+   </composite:implementation>
+</html>
