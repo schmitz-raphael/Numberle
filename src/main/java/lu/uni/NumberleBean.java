@@ -53,11 +53,22 @@ public class NumberleBean implements Serializable {
         this.secretNumber = numbersList.get(rand.nextInt(numbersList.size()));
         logger.info(secretNumber);
     }
-
-    public void checkGuess() { 
+    /**
+     * small function to check that every character in the guess is a digit
+     * returns false as soon as anything other than a digit is encountered 
+     */ 
+    public boolean isValidGuess(){
+        for (int i = 0; i < guess.length(); i++){
+            char ch = guess.charAt(i);
+            if (!Character.isDigit(ch)) return false;
+        }
+        return true;
+    }
+    public String checkGuess() {
+        //if a guess is not complete immediately exit the function
+        if (guess.length() < 6 || !isValidGuess()) return "index";
         // store the attempt in form of a string
         String attempt = "";
-
         //in order to visualize a number in a single line, a div with a flexbox is used
         attempt += "<div style = 'display:flex'>";
         //loop through the digits of the guess
@@ -66,25 +77,40 @@ public class NumberleBean implements Serializable {
             char guessDigit = guess.charAt(i);
             int digitPosition = getDigitPosition(guessDigit);
 
-            //if a digit is not found in the target number, but the digit in a red box
+            //if a digit is not found in the target number, put the digit in a red box
             if (digitPosition == -1){
                  attempt += "<div class = 'digit' style='background-color:red'>" +guessDigit + "</div>";
-            }else if (i < digitPosition && guessDigit != secretNumber.charAt(i)) {
-                attempt +="<div class = 'digit' style='background-color:#ffd700'>"+guessDigit+"</div>";
-            }else if (i > digitPosition && guessDigit != secretNumber.charAt(i)){
+            }
+            //when the digit is to the left  of its actual position --> blue box
+            else if (i < digitPosition && guessDigit != secretNumber.charAt(i)) {
+                attempt +="<div class = 'digit' style='background-color:blue'>"+guessDigit+"</div>";
+            }
+            //when the digit is to the right of its actual position --> orange box
+            else if (i > digitPosition && guessDigit != secretNumber.charAt(i)){
                     attempt += "<div class = 'digit' style='background-color:orange'>" + guessDigit + "</div>";
-            } else {
-                attempt += "<div class = 'digit' style='background-color:#007FF'>" + guessDigit + "</div>";
+            }
+            // when the digit is at the right position --> green box
+            else {
+                attempt += "<div class = 'digit' style='background-color:green'>" + guessDigit + "</div>";
             }
         }
         attempt += "</div>";
+        //put the attempt in its own div to make sure that every attempt is in another line and add it to the attempts
         attempts += "<div>"+attempt+"</div>";
         tryCounter++;
-
-        //won = guess.equals(secretNumber);
+        if (tryCounter >= 6) {
+            return "failure";  // Trigger the navigation rule
+        }
+        if (guess.equals(secretNumber)) return "success";
         guess = "";
-
+        return "index"; // Stay on the same page if the game isn't over
     }
+    /**
+     * 
+     * @param ch
+     * @return position of the digit in the secret number
+     * @return -1 if the digit is not found
+     */
     private int getDigitPosition(char ch){
         for (int i = 0; i < secretNumber.length(); i++){
             if (ch == secretNumber.charAt(i)){
@@ -93,6 +119,7 @@ public class NumberleBean implements Serializable {
         }
         return -1;
     }
+
     // Getters and Setters
     public String getGuess() {
         return guess;
@@ -113,8 +140,14 @@ public class NumberleBean implements Serializable {
     public String getAttempts() {
         return attempts; // Return the array directly for easy access in UI
     }
-
+    public String getSecretNumber(){
+        return secretNumber;
+    }
     public int getTryCounter() {
-        return tryCounter; // Expose tryCounter if needed for UI logic
+        return tryCounter;
+    }
+    public String resetGame(){
+        init();
+        return "index";
     }
 }

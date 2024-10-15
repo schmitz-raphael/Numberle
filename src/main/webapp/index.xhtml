@@ -11,15 +11,12 @@
     <h:form>
         <h:panelGrid columns="1">
             <h:outputLabel value="Guess a 6-digit number:"/>
-            <h:inputText value="#{numberleBean.guess}" size="6" maxlength="6"/>
-            <h:commandButton value="Submit" action="#{numberleBean.checkGuess}">
-            </h:commandButton>
-            
-            <h:outputLabel value="#{numberleBean.feedback}" escape="false"/>
-            <h:outputLabel value="Attempts: #{numberleBean.tryCounter}"/>
+            <h:panelGroup layout="block">
+                <h:inputText value="#{numberleBean.guess}" size="6" maxlength="6"/>
+                <h:commandButton value="Submit" action="#{numberleBean.checkGuess}"></h:commandButton>
+            </h:panelGroup>
             <h:outputLabel value="#{numberleBean.attempts}" escape="false"/>
         </h:panelGrid>
     </h:form>
-    <h:outputText>Blue = correct position, Yellow = to the left, Orange = to the right</h:outputText>
 </h:body>
 </html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Failure</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <h1 style="color:red">Game Over</h1>
+    <h:form>
+        <h:panelGrid columns="1">
+        <h:outputText value="The secret number was #{numberleBean.secretNumber}"/>
+        <h:commandButton value="Play Again" action="#{numberleBean.resetGame}">
+        </h:commandButton>
+    </h:panelGrid>
+    </h:form>
+</h:body>
+</html>
